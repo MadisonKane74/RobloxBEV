@@ -1,0 +1,16 @@
+local player = game.Players.LocalPlayer -- Get reference to the local player
+local camera = game.Workspace.CurrentCamera -- Get reference to the camera
+
+local height = 10 -- Height of the camera above the player
+local distance = 10 -- Distance of the camera from the player
+local angle = math.rad(90) -- Angle of the camera (90 degrees = directly above)
+
+function updateCamera()
+    local playerPosition = player.Character and player.Character:GetPrimaryPartCFrame().Position or Vector3.new(0, 0, 0)
+    local cameraOffset = Vector3.new(distance * math.cos(angle), height, distance * math.sin(angle))
+
+    camera.CFrame = CFrame.new(playerPosition + cameraOffset, playerPosition) -- Set camera position and look at the player
+end
+
+-- Connect the updateCamera function to the RenderStepped event to continuously update the camera position
+game:GetService("RunService").RenderStepped:Connect(updateCamera)
